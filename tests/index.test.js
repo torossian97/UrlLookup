@@ -18,7 +18,7 @@ describe('Service', ()=>{
 describe('/GET', () => {
     it('Service should successfully GET 200 status', (done) => {
       chai.request(service)
-          .get('/')
+          .get('/urlStatus/1')
           .end((err, res) => {
               chai.expect(res.status).to.equal(200);
             done();
