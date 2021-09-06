@@ -4,7 +4,7 @@ const config = require('config');
 const urlinfo = require('../routes/urlInfo');
 
 const app = express();
-app.use('/urlStatus', urlinfo);
+app.use('/urlInfo', urlinfo);
 
 // Get proper port from config and start server
 const listen = app.listen(config.get('port'), () => {
