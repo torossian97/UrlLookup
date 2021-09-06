@@ -2,17 +2,17 @@ class UrlValidator {
 
     constructor(hostname, path) {
       this.hostname = hostname;
+      this.path = path;
 
       if(path === undefined) {
         this.hostname = hostname;
         this.path = "";
-      } else {
-        this.path = path;
       }
 
-
-
-      let url = this.hostname.concat(this.path);
+      /* Check that the URL is valid. With more time, would add individual
+       * hostname and path checks for better error reporting.
+       */
+      let url = this.hostname + "/" + this.path;
       if(!this.validURL(url)) {
         throw ({error: 400, message: "Invalid URL."});
       }

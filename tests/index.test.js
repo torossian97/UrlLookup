@@ -8,6 +8,7 @@ const EMPTY = "";
 const INVALID_HOST = "http:// google.com";
 
 const VALID_PATH = "images";
+const VALID_PATH_UNSAFE = "watermelon";
 const INVALID_PATH = "@/&"
 
 chai.use(chaiHttp)
@@ -32,7 +33,22 @@ describe('/GET', () => {
           .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST) + '/' + encodeURIComponent(VALID_PATH))
           .end((err, res) => {
               chai.expect(res.status).to.equal(200);
-              chai.expect(res.body.url).to.equal(VALID_HOST);
+              chai.expect(res.body.url).to.equal(VALID_HOST + "/" + VALID_PATH);
+              chai.expect(res.body.safety).to.equal("SAFE");
+            done();
+          });
+    });
+});
+
+// Test the GET route with valid url payload and shown UNSAFE.
+describe('/GET', () => {
+    it('Service should succeed with completed request and shown UNSAFE', (done) => {
+      chai.request(service)
+          .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST) + '/' + encodeURIComponent(VALID_PATH_UNSAFE))
+          .end((err, res) => {
+              chai.expect(res.status).to.equal(200);
+              chai.expect(res.body.url).to.equal(VALID_HOST + "/" + VALID_PATH_UNSAFE);
+              chai.expect(res.body.safety).to.equal("UNSAFE");
             done();
           });
     });
@@ -45,7 +61,8 @@ describe('/GET', () => {
           .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST) + '/' + encodeURIComponent(EMPTY))
           .end((err, res) => {
               chai.expect(res.status).to.equal(200);
-              chai.expect(res.body.url).to.equal(VALID_HOST);
+              chai.expect(res.body.url).to.equal(VALID_HOST + "/");
+              chai.expect(res.body.safety).to.equal("SAFE");
             done();
           });
     });

@@ -11,6 +11,7 @@ const INVALID_HOST_MISSING = "http://google";
 
 const VALID_PATH = "images";
 const VALID_PATH_QUERY = "imghp?q=%22cisco%22";
+const VALID_PATH_UNSAFE = "watermelon";
 const INVALID_PATH = "@/&"
 
 chai.use(chaiHttp)
@@ -116,6 +117,47 @@ describe('URL Validator', ()=>{
         try {
             new UrlValidator(INVALID_HOST_MISSING, VALID_PATH);
             chai.assert.fail("Should have failed, this was an invalid URL.");
+        } catch(e){
+            // Expected.
+        }
+    })
+});
+
+//////////////// DB Fetch //////////////////
+
+// Test that a valid URL returns the proper safety data.
+describe('URL Validator', ()=>{
+    it("URL Validator returns the proper safety data, SAFE", async()=>{
+        try {
+            let urlValidator = new UrlValidator(VALID_HOST, VALID_PATH);
+            let response = urlValidator.dbFetch();
+            chai.expect(response.safety).to.equal("SAFE");
+        } catch(e){
+            chai.assert.fail(e.message);
+        }
+    })
+});
+
+// Test that a valid URL returns the proper safety data.
+describe('URL Validator', ()=>{
+    it("URL Validator returns the proper safety data, UNSAFE", async()=>{
+        try {
+            let urlValidator = new UrlValidator(VALID_HOST, VALID_PATH_UNSAFE);
+            let response = urlValidator.dbFetch();
+            chai.expect(response.safety).to.equal("UNSAFE");
+        } catch(e){
+            chai.assert.fail(e.message);
+        }
+    })
+});
+
+// Test that a valid URL returns the proper error when data not there.
+describe('URL Validator', ()=>{
+    it("URL Validator returns the proper error when data not there", async()=>{
+        try {
+            let urlValidator = new UrlValidator(VALID_HOST, "doesNotExist");
+            let response = urlValidator.dbFetch();
+            chai.assert.fail("Should have failed, this URL is not in the db.");
         } catch(e){
             // Expected.
         }
