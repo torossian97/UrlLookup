@@ -6,7 +6,7 @@ const VALID_HOST = "http://google.com";
 const EMPTY = "";
 const INVALID_HOST_SPACE = "http:// google.com";
 const INVALID_HOST_CHAR = "http@://google.com";
-const INVALID_HOST_MISSING = "http@://google";
+const INVALID_HOST_MISSING = "http://google";
 //etc. not going to go completely in-depth on test-cases, you get the gist.
 
 const VALID_PATH = "images";
@@ -30,7 +30,7 @@ describe('URL Validator', ()=>{
 
 // Test that the url Validator accepts a valid hostname and valid path.
 describe('URL Validator', ()=>{
-    it('URL validator accepts a valid URL', async()=>{
+    it('URL validator accepts a valid hostname and path', async()=>{
         try {
             new UrlValidator(VALID_HOST, VALID_PATH);
         } catch(e){
@@ -41,7 +41,7 @@ describe('URL Validator', ()=>{
 
 // Test that the url Validator accepts a valid hostname and valid query path.
 describe('URL Validator', ()=>{
-    it('URL validator accepts a valid URL', async()=>{
+    it('URL validator accepts a valid hostname and path with query', async()=>{
         try {
             new UrlValidator(VALID_HOST, VALID_PATH_QUERY);
         } catch(e){
@@ -100,7 +100,7 @@ describe('URL Validator', ()=>{
 
 // Test that the url Validator rejects a URL comprised of valid hostname and invalid path.
 describe('URL Validator', ()=>{
-    it("URL Validator rejects a URL missing it's extension", async()=>{
+    it("URL Validator rejects a URL with valid hostname but improper path", async()=>{
         try {
             new UrlValidator(VALID_PATH, INVALID_PATH);
             chai.assert.fail("Should have failed, this was an invalid URL.");
@@ -112,21 +112,9 @@ describe('URL Validator', ()=>{
 
 // Test that the url Validator rejects a URL comprised of invalid hostname and valid path.
 describe('URL Validator', ()=>{
-    it("URL Validator rejects a URL missing it's extension", async()=>{
+    it("URL Validator rejects a URL with invalid hostname but proper path", async()=>{
         try {
-            new UrlValidator(VALID_PATH, INVALID_PATH);
-            chai.assert.fail("Should have failed, this was an invalid URL.");
-        } catch(e){
-            // Expected.
-        }
-    })
-});
-
-// Test that the url Validator rejects a URL comprised of invalid hostname and valid path.
-describe('URL Validator', ()=>{
-    it("URL Validator rejects a URL missing it's extension", async()=>{
-        try {
-            new UrlValidator(VALID_PATH, INVALID_PATH);
+            new UrlValidator(INVALID_HOST_MISSING, VALID_PATH);
             chai.assert.fail("Should have failed, this was an invalid URL.");
         } catch(e){
             // Expected.
