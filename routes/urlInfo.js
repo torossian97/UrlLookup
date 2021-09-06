@@ -6,7 +6,7 @@ var router = express.Router();
 router.get('/1/:hostname/:path', function(req, res, next) {
   try {
     let urlValidator = new UrlValidator(req.params.hostname, req.params.path);
-    res.send({url: req.params.hostname});
+    urlValidator.getUrlInfo(req,res);
   } catch(e) {
     res.status(e.error).send({message: e.message}); 
   }
@@ -16,7 +16,7 @@ router.get('/1/:hostname/:path', function(req, res, next) {
 router.get('/1/:hostname', function(req, res, next) {
   try {
     let urlValidator = new UrlValidator(req.params.hostname);
-    res.send({url: urlValidator.url});
+    urlValidator.getUrlInfo(req,res);
   } catch(e) {
     res.status(e.error).send({message: e.message}); 
   }

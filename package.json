@@ -12,6 +12,7 @@
     "eslint": "eslint src/**/*.js --ignore-pattern \"node_modules/\""
   },
   "dependencies": {
+    "aws-sdk": "^2.983.0",
     "babel-cli": "^6.26.0",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",

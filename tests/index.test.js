@@ -68,6 +68,31 @@ describe('/GET', () => {
     });
 });
 
+// Test the GET route with valid url that isn't on the DB.
+describe('/GET', () => {
+    it('Service should fail fetch since valid url is not in the db', (done) => {
+      chai.request(service)
+          .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST) + '/' + "notOnDB")
+          .end((err, res) => {
+              chai.expect(res.status).to.equal(404);
+              chai.expect(res.body.message).to.equal("URL was not in DB. Unable to determine safety.");
+            done();
+          });
+    });
+});
+
+// Test internal failures.
+describe('/GET', () => {
+    it('Service should fail with internal error if Dynamo is having issues', (done) => {
+      chai.request(service)
+          .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST) + '/' + "notOnDB")
+          .end((err, res) => {
+              // will test some other time. I would've made a Clientfactory with more time.
+            done();
+          });
+    });
+});
+
 // Test the GET route with invalid (empty) url payload.
 describe('/GET', () => {
     it('Service should fail with invalid (empty) hostname, 404', (done) => {
@@ -87,6 +112,7 @@ describe('/GET', () => {
           .get('/urlInfo/1/' + encodeURIComponent(INVALID_HOST) + '/' + encodeURIComponent(VALID_PATH))
           .end((err, res) => {
               chai.expect(res.status).to.equal(400);
+              chai.expect(res.body.message).to.equal("Invalid URL.");
             done();
           });
     });
@@ -99,6 +125,7 @@ describe('/GET', () => {
           .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST) + '/' + encodeURIComponent(INVALID_PATH))
           .end((err, res) => {
               chai.expect(res.status).to.equal(400);
+              chai.expect(res.body.message).to.equal("Invalid URL.");
             done();
           });
     });
