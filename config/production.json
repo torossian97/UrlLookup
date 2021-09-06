@@ -1,5 +1,5 @@
 {
     "name": "Service Production",
     "database": "mongodb://localhost:27017/production",
-    "port": 3000
+    "port": 8080
 }
