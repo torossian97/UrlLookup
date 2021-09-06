@@ -2,6 +2,8 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const UrlValidator = require('../src/urlValidator');
 
+chai.use(chaiHttp)
+
 const VALID_HOST = "http://google.com";
 const EMPTY = "";
 const INVALID_HOST_SPACE = "http:// google.com";
@@ -11,10 +13,7 @@ const INVALID_HOST_MISSING = "http://google";
 
 const VALID_PATH = "images";
 const VALID_PATH_QUERY = "imghp?q=%22cisco%22";
-const VALID_PATH_UNSAFE = "watermelon";
 const INVALID_PATH = "@/&"
-
-chai.use(chaiHttp)
 
 //////////////// URL Validator //////////////////
 
@@ -26,33 +25,24 @@ describe('URL Validator', ()=>{
         } catch(e){
             chai.assert.fail(e.message);
         }
-    })
-});
+    });
 
-// Test that the url Validator accepts a valid hostname and valid path.
-describe('URL Validator', ()=>{
     it('URL validator accepts a valid hostname and path', async()=>{
         try {
             new UrlValidator(VALID_HOST, VALID_PATH);
         } catch(e){
             chai.assert.fail(e.message);
         }
-    })
-});
+    });
 
-// Test that the url Validator accepts a valid hostname and valid query path.
-describe('URL Validator', ()=>{
     it('URL validator accepts a valid hostname and path with query', async()=>{
         try {
             new UrlValidator(VALID_HOST, VALID_PATH_QUERY);
         } catch(e){
             chai.assert.fail(e.message);
         }
-    })
-});
+    });
 
-// Test that the url Validator rejects an empty URL.
-describe('URL Validator', ()=>{
     it('URL Validator rejects an empty URL', async()=>{
         try {
             new UrlValidator(EMPTY);
@@ -60,11 +50,8 @@ describe('URL Validator', ()=>{
         } catch(e){
             // Expected.
         }
-    })
-});
+    });
 
-// Test that the url Validator rejects a space-ridden URL.
-describe('URL Validator', ()=>{
     it('URL Validator rejects a space-ridden URL', async()=>{
         try {
             new UrlValidator(INVALID_HOST_SPACE);
@@ -72,11 +59,8 @@ describe('URL Validator', ()=>{
         } catch(e){
             // Expected.
         }
-    })
-});
+    });
 
-// Test that the url Validator rejects a invalid character-ridden URL.
-describe('URL Validator', ()=>{
     it('URL Validator rejects an invalid character-ridden URL', async()=>{
         try {
             new UrlValidator(INVALID_HOST_CHAR);
@@ -84,11 +68,8 @@ describe('URL Validator', ()=>{
         } catch(e){
             // Expected.
         }
-    })
-});
+    });
 
-// Test that the url Validator rejects a URL missing it's extension.
-describe('URL Validator', ()=>{
     it("URL Validator rejects a URL missing it's extension", async()=>{
         try {
             new UrlValidator(INVALID_HOST_MISSING);
@@ -96,11 +77,8 @@ describe('URL Validator', ()=>{
         } catch(e){
             // Expected.
         }
-    })
-});
+    });
 
-// Test that the url Validator rejects a URL comprised of valid hostname and invalid path.
-describe('URL Validator', ()=>{
     it("URL Validator rejects a URL with valid hostname but improper path", async()=>{
         try {
             new UrlValidator(VALID_PATH, INVALID_PATH);
@@ -108,11 +86,8 @@ describe('URL Validator', ()=>{
         } catch(e){
             // Expected.
         }
-    })
-});
+    });
 
-// Test that the url Validator rejects a URL comprised of invalid hostname and valid path.
-describe('URL Validator', ()=>{
     it("URL Validator rejects a URL with invalid hostname but proper path", async()=>{
         try {
             new UrlValidator(INVALID_HOST_MISSING, VALID_PATH);
@@ -120,8 +95,5 @@ describe('URL Validator', ()=>{
         } catch(e){
             // Expected.
         }
-    })
+    });
 });
-
-//////////////// DB Fetch //////////////////
-
