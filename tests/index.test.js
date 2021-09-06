@@ -3,10 +3,9 @@ const chaiHttp = require('chai-http');
 const config = require('config');
 const service = require('../src/service');
 
-const validUrl = "http://google.com";
-const invalidUrl_empty = "";
-const invalidUrl = "http:// google.com";
-//etc. not going to go completely in-depth on test-cases, you get the gist.
+const VALID_HOST = "http://google.com";
+const INVALID_HOST_EMPTY = "";
+const INVALID_HOST = "http:// google.com";
 
 chai.use(chaiHttp)
 
@@ -27,10 +26,10 @@ describe('Service', ()=>{
 describe('/GET', () => {
     it('Service should successfully GET 200 status', (done) => {
       chai.request(service)
-          .get('/urlInfo/1/' + encodeURIComponent(validUrl))
+          .get('/urlInfo/1/' + encodeURIComponent(VALID_HOST))
           .end((err, res) => {
               chai.expect(res.status).to.equal(200);
-              chai.expect(res.body.url).to.equal(validUrl);
+              chai.expect(res.body.url).to.equal(VALID_HOST);
             done();
           });
     });
@@ -40,7 +39,7 @@ describe('/GET', () => {
 describe('/GET', () => {
     it('Service should fail with invalid (empty) URL, 404', (done) => {
       chai.request(service)
-          .get('/urlInfo/1/' + encodeURIComponent(invalidUrl_empty))
+          .get('/urlInfo/1/' + encodeURIComponent(INVALID_HOST_EMPTY))
           .end((err, res) => {
               chai.expect(res.status).to.equal(404);
             done();
@@ -52,7 +51,7 @@ describe('/GET', () => {
 describe('/GET', () => {
     it('Service should fail with invalid URL, 400', (done) => {
       chai.request(service)
-          .get('/urlInfo/1/' + encodeURIComponent(invalidUrl))
+          .get('/urlInfo/1/' + encodeURIComponent(INVALID_HOST))
           .end((err, res) => {
               chai.expect(res.status).to.equal(400);
             done();
