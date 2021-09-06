@@ -16,39 +16,58 @@ chai.use(chaiHttp)
 // Test that the url Validator accepts a valid URL.
 describe('URL Validator', ()=>{
     it('URL validator accepts a valid URL', async()=>{
-        var urlValidator = new UrlValidator(validUrl);
-        chai.expect(urlValidator.validURL()).to.equal(true)
+        try {
+            new UrlValidator(validUrl);
+        } catch(e){
+            chai.assert.fail(e.message);
+        }
     })
 });
 
 // Test that the url Validator rejects an empty URL.
 describe('URL Validator', ()=>{
     it('URL Validator rejects an empty URL', async()=>{
-        var urlValidator = new UrlValidator(invalidUrl_empty);
-        chai.expect(urlValidator.validURL()).to.equal(false)
+        try {
+            new UrlValidator(invalidUrl_empty);
+            chai.assert.fail("Should have failed,l this was an invalid URL.");
+        } catch(e){
+            // Expected.
+        }
     })
 });
 
 // Test that the url Validator rejects a space-ridden URL.
 describe('URL Validator', ()=>{
     it('URL Validator rejects a space-ridden URL', async()=>{
-        var urlValidator = new UrlValidator(invalidUrl_space);
-        chai.expect(urlValidator.validURL()).to.equal(false)
+        try {
+            new UrlValidator(invalidUrl_space);
+            chai.assert.fail("Should have failed,l this was an invalid URL.");
+        } catch(e){
+            // Expected.
+        }
     })
 });
 
 // Test that the url Validator rejects a invalid character-ridden URL.
 describe('URL Validator', ()=>{
     it('URL Validator rejects an invalid character-ridden URL', async()=>{
-        var urlValidator = new UrlValidator(invalidUrl_char);
-        chai.expect(urlValidator.validURL()).to.equal(false)
+        try {
+            new UrlValidator(invalidUrl_char);
+            chai.assert.fail("Should have failed,l this was an invalid URL.");
+        } catch(e){
+            // Expected.
+        }
     })
 });
 
 // Test that the url Validator rejects a URL missing it's extension.
 describe('URL Validator', ()=>{
     it("URL Validator rejects a URL missing it's extension", async()=>{
-        var urlValidator = new UrlValidator(invalidUrl_missing);
-        chai.expect(urlValidator.validURL()).to.equal(false)
+        try {
+            new UrlValidator(invalidUrl_missing);
+            chai.assert.fail("Should have failed,l this was an invalid URL.");
+        } catch(e){
+            // Expected.
+        }
     })
 });

@@ -4,12 +4,11 @@ var router = express.Router();
 
 // GET urlInfo.
 router.get('/1/:url', function(req, res, next) {
-  let urlValidator = new UrlValidator(req.params.url);
-  
-  if(urlValidator.validURL()){
-    res.send({url: req.params.url});
-  } else {
-    res.status(400).send({message: 'invalid URL.'});
+  try {
+    let urlValidator = new UrlValidator(req.params.url);
+    res.send({url: urlValidator.url});
+  } catch(e) {
+    res.status(e.error).send({message: e.message}); 
   }
 });
 

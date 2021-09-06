@@ -5,9 +5,7 @@ const service = require('../src/service');
 
 const validUrl = "http://google.com";
 const invalidUrl_empty = "";
-const invalidUrl_space = "http:// google.com";
-const invalidUrl_char = "http@://google.com";
-const invalidUrl_missing = "http@://google";
+const invalidUrl = "http:// google.com";
 //etc. not going to go completely in-depth on test-cases, you get the gist.
 
 chai.use(chaiHttp)
@@ -50,35 +48,11 @@ describe('/GET', () => {
     });
 });
 
-// Test the GET route with invalid (spaced) url payload.
+// Test the GET route with invalid url payload.
 describe('/GET', () => {
-    it('Service should fail with invalid (spaced) URL, 400', (done) => {
+    it('Service should fail with invalid URL, 400', (done) => {
       chai.request(service)
-          .get('/urlInfo/1/' + encodeURIComponent(invalidUrl_space))
-          .end((err, res) => {
-              chai.expect(res.status).to.equal(400);
-            done();
-          });
-    });
-});
-
-// Test the GET route with invalid (character) url payload.
-describe('/GET', () => {
-    it('Service should fail with invalid (character) URL, 400', (done) => {
-      chai.request(service)
-          .get('/urlInfo/1/' + encodeURIComponent(invalidUrl_char))
-          .end((err, res) => {
-              chai.expect(res.status).to.equal(400);
-            done();
-          });
-    });
-});
-
-// Test the GET route with invalid (missing extension) url payload.
-describe('/GET', () => {
-    it('Service should fail with invalid (missing extension) URL, 400', (done) => {
-      chai.request(service)
-          .get('/urlInfo/1/' + encodeURIComponent(invalidUrl_missing))
+          .get('/urlInfo/1/' + encodeURIComponent(invalidUrl))
           .end((err, res) => {
               chai.expect(res.status).to.equal(400);
             done();
